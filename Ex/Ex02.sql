@@ -66,8 +66,47 @@ order by department_id asc;
     --where sum(salary) >= 20000; 그룹함수에는 where절을 쓸 수 없음 
     having sum(salary) >= 20000 --having 절 
     and sum(salary) <=100000
-    and department_id = 90
+    and department_id = 90;
     --and hire_date >= '04/01/01'; having절에는 그룹함수와 group by에 참여한 컬럼만 사용가능 
     
+-- CASE ~ END문 
+select  employee_id,
+        first_name,
+        salary,
+        --salary+salary*0.1 as realsalary
+        case when job_id = 'ac_account' then salary+salary*0.1
+             when job_id = 'sa_rep' then salary+salary*0.2
+             when job_id = 'st_clerk' then salary+salary*0.3
+        end "realsalary"
+from employees;
+
+--decode 문법 
+select  employee_id,
+        first_name,
+        salary,
+        decode(job_id,  'ac_account', salary+salary*0.1, 
+                        'sa_rep', salary+salary*0.2, 
+                        'st_clerk', salary+salary*0.3,
+                        else salary    
+               salary ) "bonus"
+               
+from employees;
+
+
+/* 예제> 직원의 이름 부서 팀을 출력 팀은 코드로 결정 부서코드가 
+10~50 은 'a - team ' 60~100이면 b, 110~ 150 c, 나머지는 없음으로 출력 */
+
+select  first_name||'-'||last_name,
+        department_id,
+        case WHEN department_id >= 10 and department_id <= 50 THEN  'A'
+             WHEN department_id >= 60 and department_id <= 100 THEN  'B'
+             WHEN department_id >= 110 and department_id <= 150 THEN  'C'
+            ELSE 'Others'--department id에 null값이 있어서 department_id 를 했을 때 오류가 뜸 ..
+        end team
+from employees;
+
+
+
+
 
 
