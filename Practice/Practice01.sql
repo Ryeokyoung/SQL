@@ -88,23 +88,24 @@ SELECT country_name,
 FROM countries
 order by country_name asc;
 
+        
 
 /* 문제 10) 입사일 03/12/31 일 이전 입사한 직원의 이름, 월급, 전화번호, 입사일 출력
 전화번호는 000-000-000 형식으로 */ 
 SELECT  first_name,
         salary,
         hire_date,
-        to_char(phone_number,'999-999-9999')
+        replace(phone_number,'.','-')
 FROM employees
 where hire_date < '03/12/31';
+
+
+select first_name,
+        replace(first_name, 'a','*'),
+        replace(first_name, substr(first_name, 2,3), '***')
+from employees
+where department_id = 100;
         
-        
- SELECT  first_name,
-        salary,
-         hire_date,
-         to_char(salary*12,'9999999999')
-FROM employees
-where hire_date < '03/12/31';
 
 
 
