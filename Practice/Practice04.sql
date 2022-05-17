@@ -72,12 +72,14 @@
 	        em.employee_id,
 	        em.first_name,
 	        em.salary
-	from employees em, (select department_id, max(salary)
-	                    from employees
+	from employees em, (select department_id,
+                        max(salary)salary  --salary 그룹 내 maxsalary 
+	                    from employees     --salary.max(salary)와 같음 
 	                    group by department_id) de
-	where em.department_id = de.department_id 
-	order by salary desc;                   -- 실패 모르겠음 ㅠ              
-	                                
+	where em.department_id = de.department_id
+    and em.salary = de.salary
+	order by salary desc;       
+          
 	                                
 
 -- 6 각 업무(job)별로 연봉의 총합 구하기 
