@@ -107,13 +107,33 @@ and rn <=20;
 -- 문제6.
 -- 가장 늦게 입사한 직원의 이름(first_name last_name)과 연봉(salary)과 
 -- 근무하는 부서 이름 (department_name)은?
-
+select  e.first_name||' '||last_name,
+        e.salary,
+        d.department_name,
+        e.hire_date
+from departments d, employees e 
+where d.department_id = e.department_id
+and hire_date = '08/04/21';
 
 -- 문제7.
 -- 평균연봉(salary)이 가장 높은 부서 직원들의 직원번호(employee_id), 
 -- 이름(firt_name), 성(last_name)과
 -- 업무(job_title), 연봉(salary)을 조회하시오.
+select e.first_name||' '||last_name,
+        j.job_title,
+        max(e.salary),
+        e.department_id 
+from employees e, jobs j, (select d.department_id, e.salary
+                           from departments d ,(select  department_id,
+                                                      round(avg(salary),0) avgsal        
+                                                      from employees e
+                                                      group by department_id)de
+                           where d.department_id = de.department_id) d   
+where e.job_id = j.job_id
+and d.department_id = e.department_id ;
 
+
+-- 포기 ㅠ 
 
 -- 문제8.
 -- 평균 급여(salary)가 가장 높은 부서는?
